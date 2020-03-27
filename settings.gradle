@@ -1,0 +1,4 @@
+rootProject.name='Visited Countries'
+include ':presentation'
+include ':data'
+include ':domain'
