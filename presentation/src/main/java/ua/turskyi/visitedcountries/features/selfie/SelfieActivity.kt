@@ -1,4 +1,4 @@
-package ua.turskyi.visitedcountries.features.allcountries
+package ua.turskyi.visitedcountries.features.selfie
 
 import android.app.Activity
 import android.os.Bundle
@@ -8,16 +8,16 @@ import ua.turskyi.visitedcountries.common.di.qualifiers.ViewModelInjection
 import ua.turskyi.visitedcountries.common.ui.base.BaseActivity
 import javax.inject.Inject
 
-class AllCountriesActivity : BaseActivity() {
-    override fun layoutRes() = R.layout.activity_all_countries
+class SelfieActivity : BaseActivity() {
+    override fun layoutRes() = R.layout.activity_selfie
 
     companion object {
-        fun getIntent(activity: Activity) = activity.intentFor<AllCountriesActivity>()
+        fun getIntent(activity: Activity) = activity.intentFor<SelfieActivity>()
     }
 
     @Inject
     @field:ViewModelInjection
-    lateinit var viewModel: AllCountriesActivityViewModel
+    lateinit var viewModel: SelfieActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

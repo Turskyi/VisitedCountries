@@ -45,13 +45,6 @@ dependencies {
     /* Recyclerview */
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
-    /* Dagger */
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
-    implementation "com.google.dagger:dagger:$daggerVersion"
-    implementation "com.google.dagger:dagger-android:$daggerVersion"
-    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
-
     /* Allow your app to build and read multiple DEX files. */
     /* Avoids an error that indicates that the app has reached
      the limit of the Android build architecture. */
@@ -69,32 +62,6 @@ dependencies {
     /* Displaying SVG images */
     implementation 'com.github.corouteam:GlideToVectorYou:2.0.0'
 
-    /* RX Java2 */
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.15'
-
-    /* RX Android */
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-
-    /* Retrofit2 */
-    def retrofit_version = '2.7.1'
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-
-    /* Retrofit adapters for RX */
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
-
-    /* Room DB */
-    def room_version = "2.2.5"
-    implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
-
-    /* Room DB with RX */
-    implementation "androidx.room:room-rxjava2:$room_version"
-
-    /* WorkManager */
-    implementation "android.arch.work:work-runtime-ktx:$version_work"
-
     /* Android chart view / graph view library */
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
@@ -104,6 +71,9 @@ dependencies {
     /* Paging */
     def paging_version = "2.1.2"
     implementation "androidx.paging:paging-runtime:$paging_version"
+
+    /* WorkManager */
+    implementation "android.arch.work:work-runtime-ktx:$version_work"
 
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

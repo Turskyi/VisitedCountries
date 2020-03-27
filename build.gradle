@@ -13,7 +13,47 @@ buildscript {
         // in the individual module build.gradle files
     }
 }
+subprojects {
+    afterEvaluate {
+        dependencies{
+            /* Kotlin */
+            implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
 
+            /* Rx */
+            implementation "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion"
+
+            /* RX Android */
+            implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
+
+            /* RX Java2 */
+            implementation 'io.reactivex.rxjava2:rxjava:2.2.15'
+
+            /* Retrofit2 */
+            def retrofit_version = '2.7.1'
+            implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+            implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+
+            /* Retrofit adapters for RX */
+            implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+            implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
+
+            /* Dagger */
+            kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+            kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
+            implementation "com.google.dagger:dagger:$daggerVersion"
+            implementation "com.google.dagger:dagger-android:$daggerVersion"
+            implementation "com.google.dagger:dagger-android-support:$daggerVersion"
+
+            /* Room DB */
+            def room_version = "2.2.5"
+            implementation "androidx.room:room-runtime:$room_version"
+            kapt "androidx.room:room-compiler:$room_version"
+
+            /* Room DB with RX */
+            implementation "androidx.room:room-rxjava2:$room_version"
+        }
+    }
+}
 allprojects {
     repositories {
         google()
