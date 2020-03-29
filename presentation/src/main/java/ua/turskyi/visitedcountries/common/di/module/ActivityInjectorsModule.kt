@@ -2,10 +2,12 @@ package ua.turskyi.visitedcountries.common.di.module
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import ua.turskyi.visitedcountries.features.allcountries.AllCountriesActivity
+import ua.turskyi.visitedcountries.features.allcountries.view.ui.AllCountriesActivity
 import ua.turskyi.visitedcountries.features.allcountries.AllCountriesActivityModule
-import ua.turskyi.visitedcountries.features.home.HomeActivity
+import ua.turskyi.visitedcountries.features.home.view.ui.HomeActivity
 import ua.turskyi.visitedcountries.features.home.HomeActivityModule
+import ua.turskyi.visitedcountries.features.selfie.view.SelfieActivity
+import ua.turskyi.visitedcountries.features.selfie.SelfieActivityModule
 
 @Module
 abstract class ActivityInjectorsModule {
@@ -15,4 +17,7 @@ abstract class ActivityInjectorsModule {
 
     @ContributesAndroidInjector(modules = [AllCountriesActivityModule::class])
     abstract fun allCountriesActivityInjector(): AllCountriesActivity
+
+    @ContributesAndroidInjector(modules = [SelfieActivityModule::class])
+    abstract fun selfieActivityInjector(): SelfieActivity
 }

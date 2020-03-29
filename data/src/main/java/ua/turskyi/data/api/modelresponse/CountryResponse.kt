@@ -1,4 +1,4 @@
-package ua.turskyi.data.api.responses
+package ua.turskyi.data.api.modelresponse
 
 import com.google.gson.annotations.SerializedName
 import ua.turskyi.domain.models.Country

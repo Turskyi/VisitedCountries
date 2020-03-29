@@ -1,32 +1,19 @@
-package ua.turskyi.visitedcountries.features.home
+package ua.turskyi.visitedcountries.features.selfie.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import android.app.Application
 import ua.turskyi.visitedcountries.common.ui.base.BaseViewModel
 import javax.inject.Inject
 
-class HomeActivityViewModel @Inject constructor(
+class SelfieActivityViewModel @Inject constructor( application: Application
 //    private val countriesUseCase: GetCountriesUseCase
-) : BaseViewModel() {
+) : BaseViewModel(application) {
 
 //    val countriesLiveData = MutableLiveData<List<Country>>()
-
-    private val _navigateToAllCountries = MutableLiveData<Boolean>()
-    val navigateToAllCountries: LiveData<Boolean>
-        get() = _navigateToAllCountries
 
 //    init {
 //        getCountries()
 //    }
-
-    fun onFloatBtnClicked() {
-        _navigateToAllCountries.value = true
-    }
-
-    fun onNavigatedToAllCountries() {
-        _navigateToAllCountries.value = false
-    }
-
+//
 //    private fun getCountries() {
 //        val disposable = countriesUseCase.execute(
 //            Consumer { countries: List<Country> ->
