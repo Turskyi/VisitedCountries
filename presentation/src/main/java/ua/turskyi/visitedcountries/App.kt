@@ -4,7 +4,7 @@ import androidx.multidex.MultiDexApplication
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
-import ua.turskyi.visitedcountries.common.di.components.DaggerAppComponent
+import ua.turskyi.visitedcountries.common.di.component.DaggerAppComponent
 import javax.inject.Inject
 
 class App: MultiDexApplication(), HasAndroidInjector {

@@ -1,13 +1,14 @@
-package ua.turskyi.visitedcountries.common.di.components
+package ua.turskyi.visitedcountries.common.di.component
 
 import dagger.BindsInstance
 import dagger.Component
-import dagger.Provides
 import dagger.android.support.AndroidSupportInjectionModule
-import ua.turskyi.visitedcountries.common.di.module.FragmentInjectorsModule
+import ua.turskyi.data.common.modules.DataModule
 import ua.turskyi.visitedcountries.App
-import ua.turskyi.visitedcountries.common.di.module.ActivityInjectorsModule
-import ua.turskyi.visitedcountries.common.di.module.AppModule
+import ua.turskyi.visitedcountries.common.di.modules.ActivityInjectorsModule
+import ua.turskyi.visitedcountries.common.di.modules.AppModule
+import ua.turskyi.visitedcountries.common.di.modules.FragmentInjectorsModule
+import ua.turskyi.visitedcountries.common.di.modules.RxSchedulersModule
 import javax.inject.Singleton
 
 @Singleton
@@ -16,6 +17,8 @@ import javax.inject.Singleton
         AndroidSupportInjectionModule::class,
         AppModule::class,
         ActivityInjectorsModule::class,
+        RxSchedulersModule::class,
+        DataModule::class,
         FragmentInjectorsModule::class
     ]
 )

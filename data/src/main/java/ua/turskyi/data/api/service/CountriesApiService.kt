@@ -1,4 +1,4 @@
-package ua.turskyi.data.api.services
+package ua.turskyi.data.api.service
 
 import io.reactivex.Single
 import retrofit2.http.GET

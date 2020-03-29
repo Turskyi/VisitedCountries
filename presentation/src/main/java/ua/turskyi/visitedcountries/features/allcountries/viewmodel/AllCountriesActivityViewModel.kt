@@ -5,20 +5,22 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
 import io.reactivex.Observable
+import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import ua.turskyi.domain.models.Country
+import ua.turskyi.domain.usecase.GetCountriesUseCase
 import ua.turskyi.visitedcountries.common.ui.base.BaseViewModel
 import ua.turskyi.visitedcountries.features.allcountries.view.adapter.CountriesPositionalDataSource
 import ua.turskyi.visitedcountries.utils.MainThreadExecutor
 import java.util.concurrent.Executors
 import javax.inject.Inject
 
-class AllCountriesActivityViewModel @Inject constructor(application: Application
-//    private val countriesUseCase: GetCountriesUseCase
+class AllCountriesActivityViewModel @Inject constructor(application: Application,
+    private val countriesUseCase: GetCountriesUseCase
 ) : BaseViewModel(application) {
 
     /**
@@ -40,7 +42,7 @@ class AllCountriesActivityViewModel @Inject constructor(application: Application
     var pagedList: PagedList<Country>
 
     init {
-        val dataSource = CountriesPositionalDataSource(application, compositeDisposable)
+        val dataSource = CountriesPositionalDataSource(application, countriesUseCase, compositeDisposable)
 
         val config: PagedList.Config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
@@ -52,22 +54,16 @@ class AllCountriesActivityViewModel @Inject constructor(application: Application
             .setNotifyExecutor(MainThreadExecutor())
             .build()
 
-        viewModelScope.launch {
-//            getCountries()
-        }
+        viewModelScope.launch { getCountries() }
     }
-//
+
     private fun getCountries() {
-//        val disposable = countriesUseCase.execute(
-//            Consumer { countries: List<Country> ->
-//                countriesLiveData.postValue(countries)
-//            },
-//            Consumer {
-//                if (it != null) {
-//
-//                }
-//            })
-//        compositeDisposable.add(disposable)
+        val disposable = countriesUseCase.execute(
+            Consumer { countries: List<Country> ->
+                _countriesLiveData.postValue(countries)
+            },
+            Consumer { Log.d(it, "error :(") })
+        compositeDisposable.add(disposable)
     }
     fun markAsVisited(country: Country) {
         val disposable = Observable.just(country)

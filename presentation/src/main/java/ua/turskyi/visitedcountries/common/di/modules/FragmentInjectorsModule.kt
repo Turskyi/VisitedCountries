@@ -1,4 +1,4 @@
-package ua.turskyi.visitedcountries.common.di.module
+package ua.turskyi.visitedcountries.common.di.modules
 
 import dagger.Module
 
