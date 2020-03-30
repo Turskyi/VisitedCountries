@@ -14,22 +14,21 @@ import com.github.mikephil.charting.data.PieEntry
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.content_home.*
-import splitties.toast.longToast
 import splitties.activities.start
+import splitties.toast.longToast
 import ua.turskyi.domain.models.Country
 import ua.turskyi.visitedcountries.R
 import ua.turskyi.visitedcountries.common.di.qualifiers.ViewModelInjection
 import ua.turskyi.visitedcountries.common.ui.base.BaseActivity
 import ua.turskyi.visitedcountries.databinding.ActivityHomeBinding
-import ua.turskyi.visitedcountries.extentions.config
-import ua.turskyi.visitedcountries.extentions.pixelsFromSpResource
 import ua.turskyi.visitedcountries.features.allcountries.view.ui.AllCountriesActivity
+import ua.turskyi.visitedcountries.features.home.extentions.config
+import ua.turskyi.visitedcountries.features.home.extentions.pixelsFromSpResource
 import ua.turskyi.visitedcountries.features.home.view.adapter.HomeAdapter
 import ua.turskyi.visitedcountries.features.home.view.callback.OnVisitedCountryClickListener
 import ua.turskyi.visitedcountries.features.home.viewmodel.HomeActivityViewModel
 import ua.turskyi.visitedcountries.features.selfie.view.SelfieActivity
 import ua.turskyi.visitedcountries.utils.IntFormatter
-import java.util.*
 import javax.inject.Inject
 
 class HomeActivity : BaseActivity() {
@@ -42,7 +41,7 @@ class HomeActivity : BaseActivity() {
 
     private lateinit var binding: ActivityHomeBinding
 
-    private var adapter = HomeAdapter()
+    private lateinit var adapter: HomeAdapter
     private var mSnackBar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,11 +51,12 @@ class HomeActivity : BaseActivity() {
         initObservers()
     }
     private fun initView() {
+        adapter = HomeAdapter()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
         binding.viewModel = this.viewModel
         setSupportActionBar(toolbar)
         val layoutManager = LinearLayoutManager(this)
-        rvVisitedCountries.adapter = this.adapter
+        rvVisitedCountries.adapter = adapter
         rvVisitedCountries.layoutManager = layoutManager
         rvVisitedCountries.setHasFixedSize(true)
     }
@@ -100,21 +100,21 @@ class HomeActivity : BaseActivity() {
                     viewModel.onNavigatedToAllCountries()
                 }
             })
-//        viewModel.visitedCountriesFromRxDB.observe(
-//            this,
-//            Observer { visitedCountries ->
-        val visitedCountries  = Collections.nCopies(500, Country(id = 0 ,name = "DEFAULT",flag = "", visited = true))
+        viewModel.visitedCountriesFromRxDB.observe(
+            this,
+            Observer { visitedCountries ->
                 initPieChart(visitedCountries)
                 updateAdapter(visitedCountries)
                 showFloatBtn(visitedCountries)
-//            })
+            })
         adapter.visibilityLoader.observe(this, Observer { currentVisibility ->
             pb.visibility = currentVisibility
         })
     }
+
     override fun onResume() {
         super.onResume()
-//        viewModel.getNotVisitedCountFromDB()
+        viewModel.getNotVisitedCountriesFromDB()
     }
 
     private fun showFloatBtn(visitedCountries: List<Country>?) {
@@ -130,7 +130,7 @@ class HomeActivity : BaseActivity() {
     private fun initPieChart(visitedCountries: List<Country>) {
         val entries: MutableList<PieEntry> = mutableListOf()
         entries.add(PieEntry(visitedCountries.size.toFloat()))
-//        entries.add(PieEntry(viewModel.notVisitedCountRxDB.toFloat()))
+        entries.add(PieEntry(viewModel.notVisitedCountRxDB.toFloat()))
         val pieChartColors: MutableList<Int> = mutableListOf()
         pieChartColors.add(ContextCompat.getColor(applicationContext, R.color.colorAccent))
         pieChartColors.add(

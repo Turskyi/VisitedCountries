@@ -1,4 +1,4 @@
-package ua.turskyi.data.repository
+package ua.turskyi.data.repositories
 
 import io.reactivex.Single
 import ua.turskyi.data.api.service.CountriesApiService

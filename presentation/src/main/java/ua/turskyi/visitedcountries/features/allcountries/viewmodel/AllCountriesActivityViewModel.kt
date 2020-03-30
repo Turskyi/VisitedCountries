@@ -11,6 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import ua.turskyi.data.db.CountriesDataBase
 import ua.turskyi.domain.models.Country
 import ua.turskyi.domain.usecase.GetCountriesUseCase
 import ua.turskyi.visitedcountries.common.ui.base.BaseViewModel
@@ -35,6 +36,7 @@ class AllCountriesActivityViewModel @Inject constructor(application: Application
      * viewModelJob.cancel()
      */
     private val viewModelScope = CoroutineScope(viewModelJob + Dispatchers.Main)
+    private val database = CountriesDataBase.getInstance(application)
     private val _countriesLiveData = MutableLiveData<List<Country>>()
     val countriesLiveData: MutableLiveData<List<Country>>
         get() = _countriesLiveData
@@ -42,7 +44,7 @@ class AllCountriesActivityViewModel @Inject constructor(application: Application
     var pagedList: PagedList<Country>
 
     init {
-        val dataSource = CountriesPositionalDataSource(application, countriesUseCase, compositeDisposable)
+        val dataSource = CountriesPositionalDataSource(application, compositeDisposable)
 
         val config: PagedList.Config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
@@ -54,23 +56,39 @@ class AllCountriesActivityViewModel @Inject constructor(application: Application
             .setNotifyExecutor(MainThreadExecutor())
             .build()
 
-        viewModelScope.launch { getCountries() }
+        viewModelScope.launch {
+//            getCountries()
+            getRxCountriesFromDB()
+        }
     }
 
-    private fun getCountries() {
-        val disposable = countriesUseCase.execute(
-            Consumer { countries: List<Country> ->
+    private fun getRxCountriesFromDB() {
+        val disposable = database?.countryDAO()?.getRxLiveAll()
+            ?.subscribeOn(Schedulers.io())
+            ?.observeOn(Schedulers.io())
+            ?.subscribe({ countries ->
                 _countriesLiveData.postValue(countries)
-            },
-            Consumer { Log.d(it, "error :(") })
-        compositeDisposable.add(disposable)
+            }, { throwable ->
+                Log.d(throwable.message, "error :(")
+            })
+        disposable?.let { compositeDisposable.add(it) }
     }
+
+
+    //    private fun getCountries() {
+//        val disposable = countriesUseCase.execute(
+//            Consumer { countries: List<Country> ->
+//                _countriesLiveData.postValue(countries)
+//            },
+//            Consumer { Log.d(it, "error :(") })
+//        compositeDisposable.add(disposable)
+//    }
     fun markAsVisited(country: Country) {
         val disposable = Observable.just(country)
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .subscribe({ newCountry ->
-//                database?.countryDAO()?.insert(newCountry)
+                database?.countryDAO()?.insert(newCountry)
             }, { throwable ->
                 Log.d(throwable.message, "error :(")
             })

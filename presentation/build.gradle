@@ -10,6 +10,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
     dataBinding {
         enabled = true
     }
@@ -72,9 +75,6 @@ dependencies {
     /* Paging */
     def paging_version = "2.1.2"
     implementation "androidx.paging:paging-runtime:$paging_version"
-
-    /* WorkManager */
-    implementation "android.arch.work:work-runtime-ktx:$version_work"
 
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

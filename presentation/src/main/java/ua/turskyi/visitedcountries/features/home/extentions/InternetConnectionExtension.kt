@@ -1,4 +1,4 @@
-package ua.turskyi.visitedcountries.extentions
+package ua.turskyi.visitedcountries.features.home.extentions
 
 import java.io.IOException
 

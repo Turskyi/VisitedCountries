@@ -51,6 +51,9 @@ subprojects {
 
             /* Room DB with RX */
             implementation "androidx.room:room-rxjava2:$room_version"
+
+            /* WorkManager */
+            implementation "androidx.work:work-runtime-ktx:$version_work"
         }
     }
 }
@@ -58,7 +61,7 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven { url 'https://jitpack.io' }
+        maven { url 'https://www.jitpack.io' }
     }
 }
 
