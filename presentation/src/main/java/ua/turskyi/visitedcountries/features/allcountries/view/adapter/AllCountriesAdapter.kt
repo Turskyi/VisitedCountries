@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYouListener
 import kotlinx.android.synthetic.main.list_item_country.view.*
-import ua.turskyi.domain.models.Country
+import ua.turskyi.domain.model.Country
 import ua.turskyi.visitedcountries.R
 
 class AllCountriesAdapter :

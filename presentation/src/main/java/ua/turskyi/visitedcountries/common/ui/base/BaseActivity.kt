@@ -15,9 +15,4 @@ abstract class BaseActivity: DaggerAppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(layoutRes())
     }
-
-    override fun onDestroy() {
-        CountriesDataBase.destroyInstance()
-        super.onDestroy()
-    }
 }

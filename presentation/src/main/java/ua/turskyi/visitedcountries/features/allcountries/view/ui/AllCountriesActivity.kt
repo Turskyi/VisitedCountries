@@ -5,7 +5,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_all_countries.*
-import ua.turskyi.domain.models.Country
+import ua.turskyi.domain.model.Country
 import ua.turskyi.visitedcountries.R
 import ua.turskyi.visitedcountries.common.di.qualifiers.ViewModelInjection
 import ua.turskyi.visitedcountries.common.ui.base.BaseActivity

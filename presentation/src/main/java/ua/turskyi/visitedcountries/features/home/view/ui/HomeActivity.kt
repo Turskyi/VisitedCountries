@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.content_home.*
 import splitties.activities.start
 import splitties.toast.longToast
-import ua.turskyi.domain.models.Country
+import ua.turskyi.domain.model.Country
 import ua.turskyi.visitedcountries.R
 import ua.turskyi.visitedcountries.common.di.qualifiers.ViewModelInjection
 import ua.turskyi.visitedcountries.common.ui.base.BaseActivity
@@ -58,7 +58,6 @@ class HomeActivity : BaseActivity() {
         val layoutManager = LinearLayoutManager(this)
         rvVisitedCountries.adapter = adapter
         rvVisitedCountries.layoutManager = layoutManager
-        rvVisitedCountries.setHasFixedSize(true)
     }
 
     private fun initListeners() {
@@ -87,6 +86,7 @@ class HomeActivity : BaseActivity() {
 
             private fun removeOnLongClick(country: Country) {
                 country.visited = false
+
                 viewModel.removeFromVisited(country)
             }
         })
@@ -114,7 +114,7 @@ class HomeActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.getNotVisitedCountriesFromDB()
+        viewModel.getNotVisitedCountFromDB()
     }
 
     private fun showFloatBtn(visitedCountries: List<Country>?) {

@@ -22,7 +22,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ua.turskyi.visitedcountries.features.home.view.callback.OnVisitedCountryClickListener
-import ua.turskyi.domain.models.Country
+import ua.turskyi.domain.model.Country
 import ua.turskyi.visitedcountries.R
 
 class HomeAdapter : ListAdapter<Country, HomeAdapter.ViewHolder>(CountriesDiffCallback()) {

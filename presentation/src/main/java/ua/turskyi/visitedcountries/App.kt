@@ -8,6 +8,7 @@ import dagger.android.HasAndroidInjector
 import ua.turskyi.visitedcountries.common.di.component.DaggerAppComponent
 import javax.inject.Inject
 
+
 class App: MultiDexApplication(), HasAndroidInjector {
 
     @Inject

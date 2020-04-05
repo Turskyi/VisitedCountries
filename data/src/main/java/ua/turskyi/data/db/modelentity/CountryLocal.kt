@@ -6,7 +6,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import ua.turskyi.data.db.modelentity.CountryLocal.Companion.COLUMN_NAME
 import ua.turskyi.data.db.modelentity.CountryLocal.Companion.TABLE_NAME
-import ua.turskyi.domain.models.Country
+import ua.turskyi.domain.model.Country
 
 @Entity(tableName = TABLE_NAME , indices = [Index(value = [COLUMN_NAME], unique = true)])
 data class CountryLocal (

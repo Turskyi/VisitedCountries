@@ -7,36 +7,23 @@ import androidx.paging.PagedList
 import io.reactivex.Observable
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import ua.turskyi.data.db.CountriesDataBase
-import ua.turskyi.domain.models.Country
-import ua.turskyi.domain.usecase.GetCountriesUseCase
+import ua.turskyi.domain.model.Country
+import ua.turskyi.domain.usecases.GetCountriesFromDbUseCase
+import ua.turskyi.domain.usecases.MarkAsVisitedUseCase
 import ua.turskyi.visitedcountries.common.ui.base.BaseViewModel
 import ua.turskyi.visitedcountries.features.allcountries.view.adapter.CountriesPositionalDataSource
 import ua.turskyi.visitedcountries.utils.MainThreadExecutor
 import java.util.concurrent.Executors
 import javax.inject.Inject
 
-class AllCountriesActivityViewModel @Inject constructor(application: Application,
-    private val countriesUseCase: GetCountriesUseCase
+class AllCountriesActivityViewModel
+@Inject constructor(
+    application: Application,
+    private val getCountriesFromDbUseCase: GetCountriesFromDbUseCase,
+    private val markAsVisitedUseCase: MarkAsVisitedUseCase
 ) : BaseViewModel(application) {
 
-    /**
-     * This is the job for all coroutines started by this ViewModel.
-     * Cancelling this job will cancel all coroutines started by this ViewModel.
-     */
-    private val viewModelJob = SupervisorJob()
-
-    /**
-     * This is the main scope for all coroutines launched by MainViewModel.
-     * Since viewModelJob is passed, all coroutines launched by uiScope can be canceled by calling
-     * viewModelJob.cancel()
-     */
-    private val viewModelScope = CoroutineScope(viewModelJob + Dispatchers.Main)
-    private val database = CountriesDataBase.getInstance(application)
     private val _countriesLiveData = MutableLiveData<List<Country>>()
     val countriesLiveData: MutableLiveData<List<Country>>
         get() = _countriesLiveData
@@ -44,7 +31,8 @@ class AllCountriesActivityViewModel @Inject constructor(application: Application
     var pagedList: PagedList<Country>
 
     init {
-        val dataSource = CountriesPositionalDataSource(application, compositeDisposable)
+        val dataSource =
+            CountriesPositionalDataSource(getCountriesFromDbUseCase, compositeDisposable)
 
         val config: PagedList.Config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
@@ -57,49 +45,28 @@ class AllCountriesActivityViewModel @Inject constructor(application: Application
             .build()
 
         viewModelScope.launch {
-//            getCountries()
-            getRxCountriesFromDB()
+            getCountriesFromDb()
         }
     }
 
-    private fun getRxCountriesFromDB() {
-        val disposable = database?.countryDAO()?.getRxLiveAll()
-            ?.subscribeOn(Schedulers.io())
-            ?.observeOn(Schedulers.io())
-            ?.subscribe({ countries ->
+    private fun getCountriesFromDb() {
+        val disposable = getCountriesFromDbUseCase.execute(
+            Consumer { countries: List<Country> ->
                 _countriesLiveData.postValue(countries)
-            }, { throwable ->
-                Log.d(throwable.message, "error :(")
-            })
-        disposable?.let { compositeDisposable.add(it) }
+            },
+            Consumer { Log.d(it, "error :(") })
+        compositeDisposable.add(disposable)
     }
 
-
-    //    private fun getCountries() {
-//        val disposable = countriesUseCase.execute(
-//            Consumer { countries: List<Country> ->
-//                _countriesLiveData.postValue(countries)
-//            },
-//            Consumer { Log.d(it, "error :(") })
-//        compositeDisposable.add(disposable)
-//    }
     fun markAsVisited(country: Country) {
         val disposable = Observable.just(country)
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .subscribe({ newCountry ->
-                database?.countryDAO()?.insert(newCountry)
+                markAsVisitedUseCase.execute(newCountry)
             }, { throwable ->
                 Log.d(throwable.message, "error :(")
             })
         disposable?.let { compositeDisposable.add(it) }
-    }
-
-    /**
-     * Cancel all coroutines when the ViewModel is cleared
-     */
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
     }
 }
