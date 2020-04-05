@@ -1,4 +1,4 @@
-package ua.turskyi.data.repositories
+package ua.turskyi.data.repository
 
 import io.reactivex.Single
 import ua.turskyi.data.api.service.CountriesApiService
@@ -6,7 +6,7 @@ import ua.turskyi.data.db.dao.CountriesDAO
 import ua.turskyi.data.extensions.mapToCountryLocal
 import ua.turskyi.data.extensions.mapToCountryLocalList
 import ua.turskyi.domain.model.Country
-import ua.turskyi.domain.repositories.CountriesRepository
+import ua.turskyi.domain.repository.CountriesRepository
 import javax.inject.Inject
 
 class CountriesRepositoryImpl @Inject constructor(
@@ -15,11 +15,23 @@ class CountriesRepositoryImpl @Inject constructor(
 ) : CountriesRepository {
 
     override fun markAsVisited(country: Country) {
-        countriesDAO.insert(country.mapToCountryLocal())
+        val countryLocal = country.mapToCountryLocal()
+        countryLocal.visited = true
+        countriesDAO.insert(countryLocal)
     }
 
     override fun removeFromVisited(country: Country) {
-        return countriesDAO.insert(country.mapToCountryLocal())
+        val countryLocal = country.mapToCountryLocal()
+        countryLocal.visited = false
+        return countriesDAO.insert(countryLocal)
+    }
+
+    override fun getCountriesByRange(limit: Int, offset: Int): Single<List<Country>> {
+        return countriesDAO.getCountriesByRange(limit,offset).map {
+            it.map {countryLocal ->
+                countryLocal.mapToDomain()
+            }
+        }
     }
 
     override fun getCountriesFromApi(): Single<List<Country>> {
@@ -30,7 +42,7 @@ class CountriesRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun addCountriesToDb(countries: List<Country>) {
+    override fun addCountriesToDb(countries: List<Country>) = Runnable {
         countriesDAO.insertAll(countries.mapToCountryLocalList())
     }
 

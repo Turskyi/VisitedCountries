@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 class HomeActivityViewModel @Inject constructor(
     application: Application,
-    private val markAsVisitedUseCase: MarkAsVisitedUseCase,
+    private val removeFromVisitedUseCase: RemoveFromVisitedUseCase,
     private val getNotVisitedNumUseCase: GetNotVisitedNumUseCase,
     private val getVisitedCountriesUseCase: GetVisitedCountriesUseCase,
     private val getCountriesFromApiUseCase: GetCountriesFromApiUseCase,
@@ -24,7 +24,7 @@ class HomeActivityViewModel @Inject constructor(
 ) : BaseViewModel(application) {
 
     private val _visitedCountriesFromRxDB = MutableLiveData<List<Country>>()
-    val visitedCountriesFromRxDB: MutableLiveData<List<Country>>
+    var visitedCountriesFromRxDB: MutableLiveData<List<Country>>
         get() = _visitedCountriesFromRxDB
 
     private val _navigateToAllCountries = MutableLiveData<Boolean>()
@@ -34,6 +34,7 @@ class HomeActivityViewModel @Inject constructor(
     var notVisitedCountRxDB = 0
 
     init {
+        visitedCountriesFromRxDB = _visitedCountriesFromRxDB
         viewModelScope.launch {
             when {
                 isOnline() -> {
@@ -86,7 +87,8 @@ class HomeActivityViewModel @Inject constructor(
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .subscribe({ removedCountry ->
-                markAsVisitedUseCase.execute(removedCountry)
+                removeFromVisitedUseCase.execute(removedCountry)
+                getVisitedCountriesFromDB()
             }, { throwable ->
                 Log.d(throwable.message, "error :(")
             })

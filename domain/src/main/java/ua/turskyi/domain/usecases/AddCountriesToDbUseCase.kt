@@ -1,13 +1,15 @@
 package ua.turskyi.domain.usecases
 
 import ua.turskyi.domain.model.Country
-import ua.turskyi.domain.repositories.CountriesRepository
+import ua.turskyi.domain.repository.CountriesRepository
 import javax.inject.Inject
 
 class AddCountriesToDbUseCase @Inject constructor(
     private val countriesRepository: CountriesRepository
 ) {
     fun execute(countries: List<Country>) {
-        countriesRepository.addCountriesToDb(countries)
+        val addingCountriesToDbInBackground =  countriesRepository.addCountriesToDb(countries)
+        val thread = Thread(addingCountriesToDbInBackground)
+        thread.start()
     }
 }

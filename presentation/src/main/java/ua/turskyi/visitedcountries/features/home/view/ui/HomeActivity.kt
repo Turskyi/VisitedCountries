@@ -33,15 +33,13 @@ import javax.inject.Inject
 
 class HomeActivity : BaseActivity() {
 
-    override fun layoutRes() = R.layout.activity_home
-
     @Inject
     @field:ViewModelInjection
     lateinit var viewModel: HomeActivityViewModel
 
     private lateinit var binding: ActivityHomeBinding
 
-    private lateinit var adapter: HomeAdapter
+    private var adapter = HomeAdapter()
     private var mSnackBar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,12 +49,11 @@ class HomeActivity : BaseActivity() {
         initObservers()
     }
     private fun initView() {
-        adapter = HomeAdapter()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
         binding.viewModel = this.viewModel
         setSupportActionBar(toolbar)
         val layoutManager = LinearLayoutManager(this)
-        rvVisitedCountries.adapter = adapter
+        rvVisitedCountries.adapter = this.adapter
         rvVisitedCountries.layoutManager = layoutManager
     }
 
@@ -85,8 +82,6 @@ class HomeActivity : BaseActivity() {
             }
 
             private fun removeOnLongClick(country: Country) {
-                country.visited = false
-
                 viewModel.removeFromVisited(country)
             }
         })

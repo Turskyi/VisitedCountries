@@ -6,7 +6,7 @@ import io.reactivex.functions.Consumer
 import ua.turskyi.domain.common.di.qualifiers.schedulers.IoScheduler
 import ua.turskyi.domain.common.di.qualifiers.schedulers.MainScheduler
 import ua.turskyi.domain.model.Country
-import ua.turskyi.domain.repositories.CountriesRepository
+import ua.turskyi.domain.repository.CountriesRepository
 import javax.inject.Inject
 
 class GetCountriesFromApiUseCase @Inject constructor(

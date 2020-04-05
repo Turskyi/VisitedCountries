@@ -8,11 +8,11 @@ import ua.turskyi.visitedcountries.R
 
 abstract class BaseActivity: DaggerAppCompatActivity(){
     @LayoutRes
-    abstract fun layoutRes(): Int
+    open fun layoutRes(): Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme_NoActionBar)
         super.onCreate(savedInstanceState)
-        setContentView(layoutRes())
+        layoutRes()?.let { setContentView(it) }
     }
 }

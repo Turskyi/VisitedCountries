@@ -1,7 +1,7 @@
 package ua.turskyi.domain.usecases
 
 import ua.turskyi.domain.model.Country
-import ua.turskyi.domain.repositories.CountriesRepository
+import ua.turskyi.domain.repository.CountriesRepository
 import javax.inject.Inject
 
 class RemoveFromVisitedUseCase @Inject constructor(

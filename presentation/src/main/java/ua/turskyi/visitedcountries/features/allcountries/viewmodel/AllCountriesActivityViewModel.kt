@@ -2,6 +2,7 @@ package ua.turskyi.visitedcountries.features.allcountries.viewmodel
 
 import android.app.Application
 import android.util.Log
+import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
 import io.reactivex.Observable
@@ -9,6 +10,7 @@ import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.launch
 import ua.turskyi.domain.model.Country
+import ua.turskyi.domain.usecases.GetCountriesByRangeUseCase
 import ua.turskyi.domain.usecases.GetCountriesFromDbUseCase
 import ua.turskyi.domain.usecases.MarkAsVisitedUseCase
 import ua.turskyi.visitedcountries.common.ui.base.BaseViewModel
@@ -21,6 +23,7 @@ class AllCountriesActivityViewModel
 @Inject constructor(
     application: Application,
     private val getCountriesFromDbUseCase: GetCountriesFromDbUseCase,
+    getCountriesByRangeUseCase: GetCountriesByRangeUseCase,
     private val markAsVisitedUseCase: MarkAsVisitedUseCase
 ) : BaseViewModel(application) {
 
@@ -28,11 +31,15 @@ class AllCountriesActivityViewModel
     val countriesLiveData: MutableLiveData<List<Country>>
         get() = _countriesLiveData
 
+    private val _visibilityLoader = MutableLiveData<Int>()
+    val visibilityLoader: MutableLiveData<Int>
+        get() = _visibilityLoader
+
     var pagedList: PagedList<Country>
 
     init {
         val dataSource =
-            CountriesPositionalDataSource(getCountriesFromDbUseCase, compositeDisposable)
+            CountriesPositionalDataSource(getCountriesByRangeUseCase, compositeDisposable)
 
         val config: PagedList.Config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
@@ -45,6 +52,7 @@ class AllCountriesActivityViewModel
             .build()
 
         viewModelScope.launch {
+            _visibilityLoader.postValue(View.VISIBLE)
             getCountriesFromDb()
         }
     }
@@ -53,8 +61,12 @@ class AllCountriesActivityViewModel
         val disposable = getCountriesFromDbUseCase.execute(
             Consumer { countries: List<Country> ->
                 _countriesLiveData.postValue(countries)
+                _visibilityLoader.postValue(View.GONE)
             },
-            Consumer { Log.d(it, "error :(") })
+            Consumer {
+                Log.d(it, "error :(")
+                _visibilityLoader.postValue(View.GONE)
+            })
         compositeDisposable.add(disposable)
     }
 

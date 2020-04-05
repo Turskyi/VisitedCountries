@@ -2,8 +2,8 @@ package ua.turskyi.data.common.modules
 
 import dagger.Module
 import dagger.Provides
-import ua.turskyi.data.repositories.CountriesRepositoryImpl
-import ua.turskyi.domain.repositories.CountriesRepository
+import ua.turskyi.data.repository.CountriesRepositoryImpl
+import ua.turskyi.domain.repository.CountriesRepository
 import javax.inject.Singleton
 
 @Module

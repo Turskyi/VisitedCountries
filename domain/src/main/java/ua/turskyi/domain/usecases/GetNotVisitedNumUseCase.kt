@@ -3,11 +3,9 @@ package ua.turskyi.domain.usecases
 import io.reactivex.Scheduler
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
-import org.reactivestreams.Subscription
 import ua.turskyi.domain.common.di.qualifiers.schedulers.IoScheduler
 import ua.turskyi.domain.common.di.qualifiers.schedulers.MainScheduler
-import ua.turskyi.domain.model.Country
-import ua.turskyi.domain.repositories.CountriesRepository
+import ua.turskyi.domain.repository.CountriesRepository
 import javax.inject.Inject
 
 class GetNotVisitedNumUseCase @Inject constructor(

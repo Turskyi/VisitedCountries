@@ -9,16 +9,18 @@ import ua.turskyi.domain.model.Country
 import ua.turskyi.domain.repository.CountriesRepository
 import javax.inject.Inject
 
-class GetVisitedCountriesUseCase @Inject constructor(
+class GetCountriesByRangeUseCase @Inject constructor(
     private val countriesRepository: CountriesRepository,
     @IoScheduler private val subscribeOnScheduler: Scheduler,
     @MainScheduler private val observeOnScheduler: Scheduler
 ) {
     fun execute(
+        limit: Int,
+        offset: Int,
         successConsumer: Consumer<List<Country>>,
         errorConsumer: Consumer<String>
     ): Disposable {
-        return countriesRepository.getVisitedRxLiveAll()
+        return countriesRepository.getCountriesByRange(limit, offset)
             .subscribeOn(subscribeOnScheduler)
             .observeOn(observeOnScheduler)
             .subscribe({

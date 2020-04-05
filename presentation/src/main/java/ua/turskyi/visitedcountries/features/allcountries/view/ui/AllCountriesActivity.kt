@@ -5,6 +5,9 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_all_countries.*
+import kotlinx.android.synthetic.main.activity_all_countries.pb
+import kotlinx.android.synthetic.main.activity_all_countries.toolbar
+import kotlinx.android.synthetic.main.activity_home.*
 import ua.turskyi.domain.model.Country
 import ua.turskyi.visitedcountries.R
 import ua.turskyi.visitedcountries.common.di.qualifiers.ViewModelInjection
@@ -15,7 +18,7 @@ import javax.inject.Inject
 
 class AllCountriesActivity : BaseActivity() {
 
-    override fun layoutRes() = R.layout.activity_all_countries
+     override fun layoutRes() = R.layout.activity_all_countries
 
     @Inject
     @field:ViewModelInjection
@@ -45,7 +48,6 @@ class AllCountriesActivity : BaseActivity() {
     }
 
     private fun addToVisited(country: Country) {
-        country.visited = true
         viewModel.markAsVisited(country)
         onBackPressed()
     }
@@ -53,6 +55,9 @@ class AllCountriesActivity : BaseActivity() {
     private fun initObservers() {
         viewModel.countriesLiveData.observe(this, Observer { offlineCountries ->
             updateTitle(offlineCountries)
+        })
+        viewModel.visibilityLoader.observe(this, Observer { currentVisibility ->
+            pb.visibility = currentVisibility
         })
     }
 
