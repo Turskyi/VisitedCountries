@@ -1,4 +1,4 @@
-package ua.turskyi.visitedcountries
+package ua.turskyi.visitedcountries.common
 
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.multidex.MultiDexApplication
@@ -7,7 +7,6 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import ua.turskyi.visitedcountries.common.di.component.DaggerAppComponent
 import javax.inject.Inject
-
 
 class App: MultiDexApplication(), HasAndroidInjector {
 

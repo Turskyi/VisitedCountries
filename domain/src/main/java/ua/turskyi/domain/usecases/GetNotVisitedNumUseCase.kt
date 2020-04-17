@@ -18,7 +18,7 @@ class GetNotVisitedNumUseCase @Inject constructor(
         successConsumer: Consumer<Int>,
         errorConsumer: Consumer<String>
     ): Disposable {
-        return countriesRepository.getCountNotVisitedRx()
+        return countriesRepository.getNumNotVisitedCountries()
             .subscribeOn(subscribeOnScheduler)
             .observeOn(observeOnScheduler)
             .doOnSubscribe {

@@ -18,7 +18,7 @@ class GetVisitedCountriesUseCase @Inject constructor(
         successConsumer: Consumer<List<Country>>,
         errorConsumer: Consumer<String>
     ): Disposable {
-        return countriesRepository.getVisitedRxLiveAll()
+        return countriesRepository.getVisitedCountriesFromDb()
             .subscribeOn(subscribeOnScheduler)
             .observeOn(observeOnScheduler)
             .subscribe({

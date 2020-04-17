@@ -4,7 +4,7 @@ import dagger.BindsInstance
 import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule
 import ua.turskyi.data.common.modules.DataModule
-import ua.turskyi.visitedcountries.App
+import ua.turskyi.visitedcountries.common.App
 import ua.turskyi.visitedcountries.common.di.modules.ActivityInjectorsModule
 import ua.turskyi.visitedcountries.common.di.modules.AppModule
 import ua.turskyi.visitedcountries.common.di.modules.FragmentInjectorsModule

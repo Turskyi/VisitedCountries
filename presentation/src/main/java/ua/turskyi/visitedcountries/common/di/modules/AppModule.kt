@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import ua.turskyi.visitedcountries.App
+import ua.turskyi.visitedcountries.common.App
 import javax.inject.Singleton
 
 @Module

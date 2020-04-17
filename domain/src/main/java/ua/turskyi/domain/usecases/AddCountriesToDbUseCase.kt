@@ -8,7 +8,7 @@ class AddCountriesToDbUseCase @Inject constructor(
     private val countriesRepository: CountriesRepository
 ) {
     fun execute(countries: List<Country>) {
-        val addingCountriesToDbInBackground =  countriesRepository.addCountriesToDb(countries)
+        val addingCountriesToDbInBackground =  countriesRepository.addModelCountriesToDb(countries)
         val thread = Thread(addingCountriesToDbInBackground)
         thread.start()
     }

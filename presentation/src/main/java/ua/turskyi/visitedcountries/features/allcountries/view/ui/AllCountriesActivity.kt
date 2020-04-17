@@ -5,9 +5,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_all_countries.*
-import kotlinx.android.synthetic.main.activity_all_countries.pb
-import kotlinx.android.synthetic.main.activity_all_countries.toolbar
-import kotlinx.android.synthetic.main.activity_home.*
 import ua.turskyi.domain.model.Country
 import ua.turskyi.visitedcountries.R
 import ua.turskyi.visitedcountries.common.di.qualifiers.ViewModelInjection

@@ -23,7 +23,7 @@ import ua.turskyi.visitedcountries.common.ui.base.BaseActivity
 import ua.turskyi.visitedcountries.databinding.ActivityHomeBinding
 import ua.turskyi.visitedcountries.features.allcountries.view.ui.AllCountriesActivity
 import ua.turskyi.visitedcountries.features.home.extentions.config
-import ua.turskyi.visitedcountries.features.home.extentions.pixelsFromSpResource
+import ua.turskyi.visitedcountries.features.home.extentions.spToPix
 import ua.turskyi.visitedcountries.features.home.view.adapter.HomeAdapter
 import ua.turskyi.visitedcountries.features.home.view.callback.OnVisitedCountryClickListener
 import ua.turskyi.visitedcountries.features.home.viewmodel.HomeActivityViewModel
@@ -48,6 +48,12 @@ class HomeActivity : BaseActivity() {
         initListeners()
         initObservers()
     }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getNotVisitedCountFromDB()
+    }
+
     private fun initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
         binding.viewModel = this.viewModel
@@ -95,7 +101,7 @@ class HomeActivity : BaseActivity() {
                     viewModel.onNavigatedToAllCountries()
                 }
             })
-        viewModel.visitedCountriesFromRxDB.observe(
+        viewModel.visitedCountries.observe(
             this,
             Observer { visitedCountries ->
                 initPieChart(visitedCountries)
@@ -105,11 +111,6 @@ class HomeActivity : BaseActivity() {
         adapter.visibilityLoader.observe(this, Observer { currentVisibility ->
             pb.visibility = currentVisibility
         })
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.getNotVisitedCountFromDB()
     }
 
     private fun showFloatBtn(visitedCountries: List<Country>?) {
@@ -125,7 +126,7 @@ class HomeActivity : BaseActivity() {
     private fun initPieChart(visitedCountries: List<Country>) {
         val entries: MutableList<PieEntry> = mutableListOf()
         entries.add(PieEntry(visitedCountries.size.toFloat()))
-        entries.add(PieEntry(viewModel.notVisitedCountRxDB.toFloat()))
+        entries.add(PieEntry(viewModel.notVisitedCount.toFloat()))
         val pieChartColors: MutableList<Int> = mutableListOf()
         pieChartColors.add(ContextCompat.getColor(applicationContext, R.color.colorAccent))
         pieChartColors.add(
@@ -139,7 +140,7 @@ class HomeActivity : BaseActivity() {
 
         val data = PieData(dataSet)
         data.setValueFormatter(IntFormatter())
-        data.setValueTextSize(applicationContext.pixelsFromSpResource(R.dimen.caption))
+        data.setValueTextSize(applicationContext.spToPix(R.dimen.caption))
         data.setValueTextColor(Color.WHITE)
 
         pieChart.data = data

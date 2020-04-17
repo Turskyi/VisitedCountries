@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import ua.turskyi.domain.model.Country
 import ua.turskyi.domain.usecases.*
 import ua.turskyi.visitedcountries.common.ui.base.BaseViewModel
-import ua.turskyi.visitedcountries.features.home.extentions.isOnline
+import ua.turskyi.visitedcountries.utils.isOnline
 import javax.inject.Inject
 
 class HomeActivityViewModel @Inject constructor(
@@ -23,25 +23,31 @@ class HomeActivityViewModel @Inject constructor(
     private val addCountriesToDbUseCase: AddCountriesToDbUseCase
 ) : BaseViewModel(application) {
 
-    private val _visitedCountriesFromRxDB = MutableLiveData<List<Country>>()
-    var visitedCountriesFromRxDB: MutableLiveData<List<Country>>
-        get() = _visitedCountriesFromRxDB
+    var notVisitedCount = 0
+
+    private val _visitedCountries = MutableLiveData<List<Country>>()
+    var visitedCountries: MutableLiveData<List<Country>>
 
     private val _navigateToAllCountries = MutableLiveData<Boolean>()
     val navigateToAllCountries: LiveData<Boolean>
         get() = _navigateToAllCountries
 
-    var notVisitedCountRxDB = 0
-
     init {
-        visitedCountriesFromRxDB = _visitedCountriesFromRxDB
+        visitedCountries = _visitedCountries
         viewModelScope.launch {
             when {
-                isOnline() -> {
-                    refreshCountriesInDb()
-                }
+                isOnline() -> refreshCountriesInDb()
             }
         }
+    }
+
+    private fun refreshCountriesInDb() {
+        val disposable = getCountriesFromApiUseCase.execute(
+            Consumer { countries: List<Country> ->
+                addCountriesToDbUseCase.execute(countries)
+            },
+            Consumer { Log.d(it, "error :(") })
+        compositeDisposable.add(disposable)
     }
 
     fun onFloatBtnClicked() {
@@ -55,16 +61,7 @@ class HomeActivityViewModel @Inject constructor(
     private fun getVisitedCountriesFromDB() {
         val disposable = getVisitedCountriesUseCase.execute(
             Consumer { countries: List<Country> ->
-                _visitedCountriesFromRxDB.postValue(countries)
-            },
-            Consumer { Log.d(it, "error :(") })
-        compositeDisposable.add(disposable)
-    }
-
-    private fun refreshCountriesInDb() {
-        val disposable = getCountriesFromApiUseCase.execute(
-            Consumer { countries: List<Country> ->
-                addCountriesToDbUseCase.execute(countries)
+                _visitedCountries.postValue(countries)
             },
             Consumer { Log.d(it, "error :(") })
         compositeDisposable.add(disposable)
@@ -75,10 +72,12 @@ class HomeActivityViewModel @Inject constructor(
             Consumer {
                 getVisitedCountriesFromDB()
             },
-            Consumer { notVisitedCountries ->
-                notVisitedCountRxDB = notVisitedCountries
+            Consumer { notVisitedCountriesNum ->
+                notVisitedCount = notVisitedCountriesNum
             },
-            Consumer { Log.d(it, "error :(") })
+            Consumer {
+                Log.d(it, "error :(")
+            })
         compositeDisposable.add(disposable)
     }
 

@@ -38,8 +38,7 @@ class AllCountriesActivityViewModel
     var pagedList: PagedList<Country>
 
     init {
-        val dataSource =
-            CountriesPositionalDataSource(getCountriesByRangeUseCase, compositeDisposable)
+        val dataSource = CountriesPositionalDataSource(getCountriesByRangeUseCase, compositeDisposable)
 
         val config: PagedList.Config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)

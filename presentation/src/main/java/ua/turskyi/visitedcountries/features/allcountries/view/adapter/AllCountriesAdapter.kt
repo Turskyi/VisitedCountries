@@ -43,7 +43,7 @@ class AllCountriesAdapter :
                     oldItem: Country,
                     newItem: Country
                 ): Boolean {
-                    return oldItem.name == newItem.name
+                    return oldItem.name == newItem.name && oldItem.visited == newItem.visited
                 }
             }
     }

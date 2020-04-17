@@ -11,6 +11,9 @@ internal class CountriesPositionalDataSource(
     private val getCountriesByRangeUseCase: GetCountriesByRangeUseCase,
     private val compositeDisposable: CompositeDisposable
 ) : PositionalDataSource<Country>() {
+    companion object{
+        const val LOAD_RANGE = "loadRange"
+    }
     override fun loadInitial(
         params: LoadInitialParams,
         callback: LoadInitialCallback<Country>
@@ -24,7 +27,7 @@ internal class CountriesPositionalDataSource(
             Consumer {
                 //TODO: IllegalStateException: callback.onResult/onError already called, cannot call again.
 //                callback.onResult(emptyList(), 0)
-                Log.d(it, "error :(")
+                Log.d(LOAD_RANGE, "error in loadInitial :( $it")
             }
         )
         compositeDisposable.add(disposable)
@@ -34,7 +37,7 @@ internal class CountriesPositionalDataSource(
         params: LoadRangeParams,
         callback: LoadRangeCallback<Country>
     ) {
-        Log.d("loadRange", "${params.loadSize} \\ ${params.startPosition}")
+        Log.d(LOAD_RANGE, "${params.loadSize} \\ ${params.startPosition}")
         val disposable = getCountriesByRangeUseCase.execute(
             params.loadSize,
             params.startPosition,
@@ -44,7 +47,7 @@ internal class CountriesPositionalDataSource(
             Consumer {
                 //TODO: IllegalStateException: callback.onResult/onError already called, cannot call again.
 //                callback.onResult(emptyList())
-                Log.d(it, "error :(")
+                Log.d(LOAD_RANGE, "error in loadRange :( $it ")
             }
         )
         compositeDisposable.add(disposable)
