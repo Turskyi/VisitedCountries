@@ -4,11 +4,11 @@ import android.os.Bundle
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.activity_all_countries.*
 import ua.turskyi.domain.model.Country
 import ua.turskyi.visitedcountries.R
 import ua.turskyi.visitedcountries.common.di.qualifiers.ViewModelInjection
 import ua.turskyi.visitedcountries.common.ui.base.BaseActivity
+import ua.turskyi.visitedcountries.databinding.ActivityAllCountriesBinding
 import ua.turskyi.visitedcountries.features.allcountries.view.adapter.AllCountriesAdapter
 import ua.turskyi.visitedcountries.features.allcountries.viewmodel.AllCountriesActivityViewModel
 import javax.inject.Inject
@@ -22,6 +22,7 @@ class AllCountriesActivity : BaseActivity() {
     lateinit var viewModel: AllCountriesActivityViewModel
 
     private lateinit var adapter: AllCountriesAdapter
+    private lateinit var binding: ActivityAllCountriesBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,16 +32,18 @@ class AllCountriesActivity : BaseActivity() {
     }
 
     private fun initView() {
+        binding = ActivityAllCountriesBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorBlack)
         adapter = AllCountriesAdapter()
         adapter.submitList(viewModel.pagedList)
         val layoutManager = LinearLayoutManager(this)
-        rvAllCountries.adapter = adapter
-        rvAllCountries.layoutManager = layoutManager
+        binding.rvAllCountries.adapter = adapter
+        binding.rvAllCountries.layoutManager = layoutManager
     }
 
     private fun initListeners() {
-        toolbar.setNavigationOnClickListener { onBackPressed() }
+        binding.toolbar.setNavigationOnClickListener { onBackPressed() }
         adapter.onCountryClickListener = ::addToVisited
     }
 
@@ -50,15 +53,15 @@ class AllCountriesActivity : BaseActivity() {
     }
 
     private fun initObservers() {
-        viewModel.countriesLiveData.observe(this, Observer { offlineCountries ->
+        viewModel.countriesLiveData.observe(this, { offlineCountries ->
             updateTitle(offlineCountries)
         })
-        viewModel.visibilityLoader.observe(this, Observer { currentVisibility ->
-            pb.visibility = currentVisibility
+        viewModel.visibilityLoader.observe(this, { currentVisibility ->
+            binding.pb.visibility = currentVisibility
         })
     }
 
     private fun updateTitle(countries: List<Country>) {
-        toolbarTitle.text = getString(R.string.num_of_countries, countries.size.toString())
+        binding.toolbarTitle.text = getString(R.string.num_of_countries, countries.size.toString())
     }
 }

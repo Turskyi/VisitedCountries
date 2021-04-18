@@ -69,7 +69,9 @@
             android:id="@+id/pb"
             style="@style/ProgressBarStyle" />
 
-        <include layout="@layout/content_home" />
+        <include
+            android:id="@+id/include_layout"
+            layout="@layout/content_home" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatBtnSmall"
@@ -86,7 +88,8 @@
             app:layout_anchor="@id/app_bar"
             app:layout_anchorGravity="bottom|end"
             app:maxImageSize="48dp"
-            app:srcCompat="@drawable/ic_countries_seen" />
+            app:srcCompat="@drawable/ic_countries_seen"
+            android:contentDescription="@string/content_description_image" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatBtnLarge"
@@ -107,6 +110,7 @@
             app:fabSize="auto"
             app:maxImageSize="192dp"
             app:rippleColor="@android:color/black"
-            app:srcCompat="@drawable/ic_countries_seen" />
+            app:srcCompat="@drawable/ic_countries_seen"
+            android:contentDescription="@string/content_description_image" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

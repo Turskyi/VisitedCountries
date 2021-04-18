@@ -7,6 +7,7 @@
 
     <string name="flag" translatable="false">flag</string>
     <string name="country" translatable="false">Country</string>
+    <string name="content_description_image">image</string>
 
     <plurals name="numberOfCountriesVisited">
         <item quantity="one">You\'ve been to %d country.</item>

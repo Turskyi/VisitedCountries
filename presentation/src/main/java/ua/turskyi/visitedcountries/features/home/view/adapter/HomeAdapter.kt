@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYouListener
-import kotlinx.android.synthetic.main.list_item_country.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -114,9 +113,9 @@ class HomeAdapter : ListAdapter<Country, HomeAdapter.ViewHolder>(CountriesDiffCa
 
    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), OnClickListener,
         OnLongClickListener {
-       val tvCountry: TextView = itemView.tvCountry
-       val ivFlag: ImageView = itemView.ivFlag
-       val wvFlag: WebView = itemView.wvFlag
+       val tvCountry: TextView = itemView.findViewById(R.id.tvCountry)
+       val ivFlag: ImageView = itemView.findViewById(R.id.ivFlag)
+       val wvFlag: WebView = itemView.findViewById(R.id.wvFlag)
         init {
             itemView.setOnLongClickListener(this)
             itemView.setOnClickListener(this)

@@ -12,8 +12,6 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.content_home.*
 import splitties.activities.start
 import splitties.toast.longToast
 import ua.turskyi.domain.model.Country
@@ -57,10 +55,10 @@ class HomeActivity : BaseActivity() {
     private fun initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
         binding.viewModel = this.viewModel
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
         val layoutManager = LinearLayoutManager(this)
-        rvVisitedCountries.adapter = this.adapter
-        rvVisitedCountries.layoutManager = layoutManager
+        binding.includeLayout.rvVisitedCountries.adapter = this.adapter
+        binding.includeLayout.rvVisitedCountries.layoutManager = layoutManager
     }
 
     private fun initListeners() {
@@ -71,7 +69,7 @@ class HomeActivity : BaseActivity() {
 
             private fun showSnackBar(country: Country) {
                 mSnackBar = Snackbar.make(
-                    rvVisitedCountries,
+                    binding.includeLayout.rvVisitedCountries,
                     getString(R.string.delete_country, country.name),
                     Snackbar.LENGTH_LONG
                 ).setActionTextColor(Color.WHITE).setAction(getString(R.string.yes)) {
@@ -95,7 +93,7 @@ class HomeActivity : BaseActivity() {
 
     private fun initObservers() {
         viewModel.navigateToAllCountries.observe(this,
-            Observer { shouldNavigate ->
+            { shouldNavigate ->
                 if (shouldNavigate == true) {
                     start<AllCountriesActivity>()
                     viewModel.onNavigatedToAllCountries()
@@ -103,23 +101,23 @@ class HomeActivity : BaseActivity() {
             })
         viewModel.visitedCountries.observe(
             this,
-            Observer { visitedCountries ->
+            { visitedCountries ->
                 initPieChart(visitedCountries)
                 updateAdapter(visitedCountries)
                 showFloatBtn(visitedCountries)
             })
-        adapter.visibilityLoader.observe(this, Observer { currentVisibility ->
-            pb.visibility = currentVisibility
+        adapter.visibilityLoader.observe(this, { currentVisibility ->
+            binding.pb.visibility = currentVisibility
         })
     }
 
     private fun showFloatBtn(visitedCountries: List<Country>?) {
         if (visitedCountries.isNullOrEmpty()) {
-            floatBtnLarge.show()
-            floatBtnSmall.visibility = View.GONE
+            binding.floatBtnLarge.show()
+            binding.floatBtnSmall.visibility = View.GONE
         } else {
-            floatBtnLarge.hide()
-            floatBtnSmall.show()
+            binding.floatBtnLarge.hide()
+            binding.floatBtnSmall.show()
         }
     }
 
@@ -143,28 +141,31 @@ class HomeActivity : BaseActivity() {
         data.setValueTextSize(applicationContext.spToPix(R.dimen.caption))
         data.setValueTextColor(Color.WHITE)
 
-        pieChart.data = data
-        pieChart.description.isEnabled = false
+        binding.apply {
+            pieChart.data = data
+            pieChart.description.isEnabled = false
 
-        /* remove hole inside */
-        pieChart.isDrawHoleEnabled = false
+            /* remove hole inside */
+            pieChart.isDrawHoleEnabled = false
 
-        /* removes color squares */
-        pieChart.legend.isEnabled = false
+            /* removes color squares */
+            pieChart.legend.isEnabled = false
 
-        /* remove default text "no chart data available */
-        pieChart.setNoDataText(null)
+            /* remove default text "no chart data available */
+            pieChart.setNoDataText(null)
 
-        /* rotate the pie chart to 45 degrees */
-        pieChart.rotationAngle = -10f
+            /* rotate the pie chart to 45 degrees */
+            pieChart.rotationAngle = -10f
 
-        /* updates data in pieChart */
-        pieChart.invalidate()
+            /* updates data in pieChart */
+            pieChart.invalidate()
+        }
     }
+
 
     private fun updateAdapter(countries: List<Country>) {
         adapter.setData(countries)
-        toolbarLayout.title = resources.getQuantityString(
+        binding.toolbarLayout.title = resources.getQuantityString(
             R.plurals.numberOfCountriesVisited,
             countries.size,
             countries.size

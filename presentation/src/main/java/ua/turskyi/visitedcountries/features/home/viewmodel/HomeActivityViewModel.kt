@@ -26,14 +26,13 @@ class HomeActivityViewModel @Inject constructor(
     var notVisitedCount = 0
 
     private val _visitedCountries = MutableLiveData<List<Country>>()
-    var visitedCountries: MutableLiveData<List<Country>>
+    var visitedCountries: MutableLiveData<List<Country>> = _visitedCountries
 
     private val _navigateToAllCountries = MutableLiveData<Boolean>()
     val navigateToAllCountries: LiveData<Boolean>
         get() = _navigateToAllCountries
 
     init {
-        visitedCountries = _visitedCountries
         viewModelScope.launch {
             when {
                 isOnline() -> refreshCountriesInDb()
@@ -43,10 +42,10 @@ class HomeActivityViewModel @Inject constructor(
 
     private fun refreshCountriesInDb() {
         val disposable = getCountriesFromApiUseCase.execute(
-            Consumer { countries: List<Country> ->
+            { countries: List<Country> ->
                 addCountriesToDbUseCase.execute(countries)
             },
-            Consumer { Log.d(it, "error :(") })
+            { Log.d(it, "error :(") })
         compositeDisposable.add(disposable)
     }
 
@@ -60,22 +59,22 @@ class HomeActivityViewModel @Inject constructor(
 
     private fun getVisitedCountriesFromDB() {
         val disposable = getVisitedCountriesUseCase.execute(
-            Consumer { countries: List<Country> ->
+            { countries: List<Country> ->
                 _visitedCountries.postValue(countries)
             },
-            Consumer { Log.d(it, "error :(") })
+            { Log.d(it, "error :(") })
         compositeDisposable.add(disposable)
     }
 
     fun getNotVisitedCountFromDB() {
         val disposable = getNotVisitedNumUseCase.execute(
-            Consumer {
+            {
                 getVisitedCountriesFromDB()
             },
-            Consumer { notVisitedCountriesNum ->
+            { notVisitedCountriesNum ->
                 notVisitedCount = notVisitedCountriesNum
             },
-            Consumer {
+            {
                 Log.d(it, "error :(")
             })
         compositeDisposable.add(disposable)

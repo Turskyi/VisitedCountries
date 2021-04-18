@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYouListener
-import kotlinx.android.synthetic.main.list_item_country.view.*
 import ua.turskyi.domain.model.Country
 import ua.turskyi.visitedcountries.R
 
@@ -98,9 +97,9 @@ class AllCountriesAdapter :
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvCountry: TextView = itemView.tvCountry
-        val ivFlag: ImageView = itemView.ivFlag
-        val wvFlag: WebView = itemView.wvFlag
+        val tvCountry: TextView = itemView.findViewById(R.id.tvCountry)
+        val ivFlag: ImageView = itemView.findViewById(R.id.ivFlag)
+        val wvFlag: WebView = itemView.findViewById(R.id.wvFlag)
 
         init {
             itemView.setOnClickListener {
