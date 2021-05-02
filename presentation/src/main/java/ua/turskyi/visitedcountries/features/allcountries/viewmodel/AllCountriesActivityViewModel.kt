@@ -58,11 +58,11 @@ class AllCountriesActivityViewModel
 
     private fun getCountriesFromDb() {
         val disposable = getCountriesFromDbUseCase.execute(
-            Consumer { countries: List<Country> ->
+            { countries: List<Country> ->
                 _countriesLiveData.postValue(countries)
                 _visibilityLoader.postValue(View.GONE)
             },
-            Consumer {
+            {
                 Log.d(it, "error :(")
                 _visibilityLoader.postValue(View.GONE)
             })
