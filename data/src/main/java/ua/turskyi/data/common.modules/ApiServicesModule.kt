@@ -2,9 +2,8 @@ package ua.turskyi.data.common.modules
 
 import dagger.Module
 import dagger.Provides
-import dagger.Reusable
 import retrofit2.Retrofit
-import ua.turskyi.data.api.service.CountriesApiService
+import ua.turskyi.data.network.service.CountriesApiService
 import javax.inject.Singleton
 
 @Module

@@ -16,7 +16,7 @@ interface CountriesDAO {
     @Query("SELECT * FROM $TABLE_NAME")
     fun getAllCountriesFromDb(): Single<List<CountryLocal>>
 
-    /* using in paging adapters */
+    // for paging adapters
     @Query("SELECT * FROM $TABLE_NAME LIMIT :limit OFFSET :offset")
     fun getCountriesByRange(limit: Int, offset: Int): Single<List<CountryLocal>>
 

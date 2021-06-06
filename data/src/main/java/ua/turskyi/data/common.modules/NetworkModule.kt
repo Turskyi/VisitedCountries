@@ -5,7 +5,7 @@ import dagger.Provides
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import ua.turskyi.data.api.Constant.API_BASE_URL
+import ua.turskyi.data.network.Constant.API_BASE_URL
 
 @Module
 class NetworkModule {

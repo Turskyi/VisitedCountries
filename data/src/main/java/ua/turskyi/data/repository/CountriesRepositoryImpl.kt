@@ -1,7 +1,7 @@
 package ua.turskyi.data.repository
 
 import io.reactivex.Single
-import ua.turskyi.data.api.service.CountriesApiService
+import ua.turskyi.data.network.service.CountriesApiService
 import ua.turskyi.data.db.dao.CountriesDAO
 import ua.turskyi.data.extensions.mapModelToLocal
 import ua.turskyi.data.extensions.mapModelListToLocalList
