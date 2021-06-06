@@ -7,7 +7,7 @@ import ua.turskyi.domain.repository.CountriesRepository
 import javax.inject.Singleton
 
 @Module
-class RepositoriesModule {
+class RepositoryModule {
     @Provides
     @Singleton
     fun provideCountriesApiRepository(

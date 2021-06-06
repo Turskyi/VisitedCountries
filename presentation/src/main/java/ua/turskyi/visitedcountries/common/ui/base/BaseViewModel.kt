@@ -1,13 +1,12 @@
 package ua.turskyi.visitedcountries.common.ui.base
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 
-abstract class BaseViewModel(application: Application): AndroidViewModel(application) {
+abstract class BaseViewModel: ViewModel() {
 
     /**
      * This is the job for all coroutines started by this ViewModel.

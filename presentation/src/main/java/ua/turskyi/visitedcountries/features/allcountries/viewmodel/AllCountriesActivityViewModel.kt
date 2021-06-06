@@ -6,12 +6,11 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
 import io.reactivex.Observable
-import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.launch
 import ua.turskyi.domain.model.Country
 import ua.turskyi.domain.usecases.GetCountriesByRangeUseCase
-import ua.turskyi.domain.usecases.GetCountriesFromDbUseCase
+import ua.turskyi.domain.usecases.GetCountriesUseCase
 import ua.turskyi.domain.usecases.MarkAsVisitedUseCase
 import ua.turskyi.visitedcountries.common.ui.base.BaseViewModel
 import ua.turskyi.visitedcountries.features.allcountries.view.adapter.CountriesPositionalDataSource
@@ -22,7 +21,7 @@ import javax.inject.Inject
 class AllCountriesActivityViewModel
 @Inject constructor(
     application: Application,
-    private val getCountriesFromDbUseCase: GetCountriesFromDbUseCase,
+    private val getCountriesUseCase: GetCountriesUseCase,
     getCountriesByRangeUseCase: GetCountriesByRangeUseCase,
     private val markAsVisitedUseCase: MarkAsVisitedUseCase
 ) : BaseViewModel(application) {
@@ -57,7 +56,7 @@ class AllCountriesActivityViewModel
     }
 
     private fun getCountriesFromDb() {
-        val disposable = getCountriesFromDbUseCase.execute(
+        val disposable = getCountriesUseCase.execute(
             { countries: List<Country> ->
                 _countriesLiveData.postValue(countries)
                 _visibilityLoader.postValue(View.GONE)

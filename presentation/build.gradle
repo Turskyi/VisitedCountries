@@ -45,34 +45,34 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 
-    /* Recyclerview */
+    // Recyclerview
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
 
-    /** Allow your app to build and read multiple DEX files.
+    /* Allowing app to build and read multiple DEX files.
      Avoids an error that indicates that the app has reached
      the limit of the Android build architecture. */
     implementation "androidx.multidex:multidex:$multidexVersion"
 
-    /** Helpers for intents, dialogs & toasts, logging, resources & dimensions. */
+    // Helpers for intents, dialogs & toasts, logging, resources & dimensions.
     implementation("com.louiscad.splitties:splitties-toast:$splitties_version")
     implementation("com.louiscad.splitties:splitties-activities:$splitties_version")
 
-    /** design components */
+    // design components
     implementation 'com.google.android.material:material:1.3.0'
 
-    /** ViewModel and LiveData */
+    // ViewModel and LiveData
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 
-    /** Displaying SVG images */
+    // Displaying SVG images
     implementation 'com.github.corouteam:GlideToVectorYou:2.0.0'
 
-    /** Android chart view / graph view library */
+    // Android chart view / graph view library
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
-    /** multiline-collapsingtoolbar */
+    // multiline-collapsingtoolbar
     implementation 'net.opacapp:multiline-collapsingtoolbar:27.1.1'
 
-    /** Paging */
+    // Paging
     def paging_version = "2.1.2"
 //    does not work with version 3.0.0
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"

@@ -5,7 +5,8 @@ import dagger.Module
 @Module(
     includes = [
         NetworkModule::class,
-        RepositoriesModule::class,
+        RepositoryModule::class,
+        UseCasesModule::class,
         DatabaseModule::class,
         ApiServicesModule::class
     ]
