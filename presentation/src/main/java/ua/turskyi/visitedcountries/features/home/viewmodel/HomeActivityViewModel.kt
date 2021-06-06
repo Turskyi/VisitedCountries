@@ -1,11 +1,9 @@
 package ua.turskyi.visitedcountries.features.home.viewmodel
 
-import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.Observable
-import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.launch
 import ua.turskyi.domain.model.Country
@@ -15,13 +13,12 @@ import ua.turskyi.visitedcountries.utils.isOnline
 import javax.inject.Inject
 
 class HomeActivityViewModel @Inject constructor(
-    application: Application,
     private val removeFromVisitedUseCase: RemoveFromVisitedUseCase,
     private val getNotVisitedNumUseCase: GetNotVisitedNumUseCase,
     private val getVisitedCountriesUseCase: GetVisitedCountriesUseCase,
     private val getCountriesFromApiUseCase: GetCountriesFromApiUseCase,
     private val addCountriesToDbUseCase: AddCountriesToDbUseCase
-) : BaseViewModel(application) {
+) : BaseViewModel() {
 
     var notVisitedCount = 0
 

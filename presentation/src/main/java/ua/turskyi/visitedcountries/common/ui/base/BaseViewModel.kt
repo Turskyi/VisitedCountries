@@ -21,7 +21,7 @@ abstract class BaseViewModel: ViewModel() {
      */
     val viewModelScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
-    val compositeDisposable = CompositeDisposable()
+    val compositeDisposable:CompositeDisposable = CompositeDisposable()
 
     override fun onCleared() {
         super.onCleared()

@@ -1,6 +1,5 @@
 package ua.turskyi.visitedcountries.features.allcountries.viewmodel
 
-import android.app.Application
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
@@ -20,11 +19,10 @@ import javax.inject.Inject
 
 class AllCountriesActivityViewModel
 @Inject constructor(
-    application: Application,
     private val getCountriesUseCase: GetCountriesUseCase,
     getCountriesByRangeUseCase: GetCountriesByRangeUseCase,
     private val markAsVisitedUseCase: MarkAsVisitedUseCase
-) : BaseViewModel(application) {
+) : BaseViewModel() {
 
     private val _countriesLiveData = MutableLiveData<List<Country>>()
     val countriesLiveData: MutableLiveData<List<Country>>

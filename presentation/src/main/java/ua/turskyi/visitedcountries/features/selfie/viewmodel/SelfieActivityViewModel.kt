@@ -1,12 +1,11 @@
 package ua.turskyi.visitedcountries.features.selfie.viewmodel
 
-import android.app.Application
 import ua.turskyi.visitedcountries.common.ui.base.BaseViewModel
 import javax.inject.Inject
 
-class SelfieActivityViewModel @Inject constructor( application: Application
+class SelfieActivityViewModel @Inject constructor(
 //    private val countriesUseCase: GetCountriesUseCaseImpl
-) : BaseViewModel(application) {
+) : BaseViewModel() {
 
 //    val countriesLiveData = MutableLiveData<List<Country>>()
 
