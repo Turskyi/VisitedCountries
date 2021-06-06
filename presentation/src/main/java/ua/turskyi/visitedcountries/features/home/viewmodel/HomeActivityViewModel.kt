@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.Observable
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.launch
 import ua.turskyi.domain.model.Country
@@ -23,7 +24,7 @@ class HomeActivityViewModel @Inject constructor(
     var notVisitedCount = 0
 
     private val _visitedCountries = MutableLiveData<List<Country>>()
-    var visitedCountries: MutableLiveData<List<Country>> = _visitedCountries
+    var visitedCountries: LiveData<List<Country>> = _visitedCountries
 
     private val _navigateToAllCountries = MutableLiveData<Boolean>()
     val navigateToAllCountries: LiveData<Boolean>
@@ -54,8 +55,8 @@ class HomeActivityViewModel @Inject constructor(
         _navigateToAllCountries.value = false
     }
 
-    private fun getVisitedCountriesFromDB() {
-        val disposable = getVisitedCountriesUseCase.execute(
+    private fun getVisitedCountries() {
+        val disposable: Disposable = getVisitedCountriesUseCase.execute(
             { countries: List<Country> ->
                 _visitedCountries.postValue(countries)
             },
@@ -66,7 +67,7 @@ class HomeActivityViewModel @Inject constructor(
     fun getNotVisitedCountFromDB() {
         val disposable = getNotVisitedNumUseCase.execute(
             {
-                getVisitedCountriesFromDB()
+                getVisitedCountries()
             },
             { notVisitedCountriesNum ->
                 notVisitedCount = notVisitedCountriesNum
@@ -83,7 +84,7 @@ class HomeActivityViewModel @Inject constructor(
             .observeOn(Schedulers.io())
             .subscribe({ removedCountry ->
                 removeFromVisitedUseCase.execute(removedCountry)
-                getVisitedCountriesFromDB()
+                getVisitedCountries()
             }, { throwable ->
                 Log.d(throwable.message, "error :(")
             })
