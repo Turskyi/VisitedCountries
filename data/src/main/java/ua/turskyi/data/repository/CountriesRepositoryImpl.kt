@@ -2,7 +2,7 @@ package ua.turskyi.data.repository
 
 import io.reactivex.Single
 import ua.turskyi.data.network.service.CountriesApiService
-import ua.turskyi.data.db.dao.CountriesDAO
+import ua.turskyi.data.db.dao.CountriesDao
 import ua.turskyi.data.extensions.mapModelToLocal
 import ua.turskyi.data.extensions.mapModelListToLocalList
 import ua.turskyi.domain.model.Country
@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 class CountriesRepositoryImpl @Inject constructor(
     private val countriesApiService: CountriesApiService,
-    private val countriesDAO: CountriesDAO
+    private val countriesDao: CountriesDao
 ) : CountriesRepository {
 
     override fun getCountriesFromApi(): Single<List<Country>> {
@@ -25,17 +25,17 @@ class CountriesRepositoryImpl @Inject constructor(
     override fun markAsVisited(country: Country) {
         val countryLocal = country.mapModelToLocal()
         countryLocal.visited = true
-        return countriesDAO.insert(countryLocal)
+        return countriesDao.insert(countryLocal)
     }
 
     override fun removeFromVisited(country: Country) {
         val countryLocal = country.mapModelToLocal()
         countryLocal.visited = false
-        return countriesDAO.insert(countryLocal)
+        return countriesDao.insert(countryLocal)
     }
 
     override fun getCountriesByRange(limit: Int, offset: Int): Single<List<Country>> {
-        return countriesDAO.getCountriesByRange(limit,offset).map { localList ->
+        return countriesDao.getCountriesByRange(limit,offset).map { localList ->
             localList.map {countryLocal ->
                 countryLocal.mapToDomain()
             }
@@ -43,11 +43,11 @@ class CountriesRepositoryImpl @Inject constructor(
     }
 
     override fun addModelCountriesToDb(countries: List<Country>) = Runnable {
-        countriesDAO.insertAllCountries(countries.mapModelListToLocalList())
+        countriesDao.insertAllCountries(countries.mapModelListToLocalList())
     }
 
     override fun getVisitedCountriesFromDb(): Single<List<Country>> {
-        return countriesDAO.getVisitedCountries().map {
+        return countriesDao.getVisitedCountries().map {
             it.map { countryLocal ->
                 countryLocal.mapToDomain()
             }
@@ -55,11 +55,11 @@ class CountriesRepositoryImpl @Inject constructor(
     }
 
     override fun getNumNotVisitedCountries(): Single<Int> {
-        return countriesDAO.getNumNotVisitedCountries()
+        return countriesDao.getNumNotVisitedCountries()
     }
 
     override fun getCountriesFromDb(): Single<List<Country>> {
-        return countriesDAO.getAllCountriesFromDb().map {
+        return countriesDao.getAllCountriesFromDb().map {
             it.map { countryLocal ->
                 countryLocal.mapToDomain()
             }

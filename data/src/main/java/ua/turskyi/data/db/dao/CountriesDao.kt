@@ -9,7 +9,7 @@ import ua.turskyi.data.db.modelentity.CountryLocal
 import ua.turskyi.data.db.modelentity.CountryLocal.Companion.TABLE_NAME
 
 @Dao
-interface CountriesDAO {
+interface CountriesDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertAllCountries(countries: List<CountryLocal>?)
 

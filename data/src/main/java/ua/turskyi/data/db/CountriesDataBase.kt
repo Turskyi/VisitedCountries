@@ -2,7 +2,7 @@ package ua.turskyi.data.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import ua.turskyi.data.db.dao.CountriesDAO
+import ua.turskyi.data.db.dao.CountriesDao
 import ua.turskyi.data.db.modelentity.CountryLocal
 
 @Database(
@@ -12,5 +12,5 @@ import ua.turskyi.data.db.modelentity.CountryLocal
 )
 
 abstract class CountriesDataBase : RoomDatabase() {
-    abstract fun countryDAO(): CountriesDAO
+    abstract fun countryDAO(): CountriesDao
 }
