@@ -19,21 +19,23 @@ subprojects {
             // Kotlin
             implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
 
-            // Retrofit2
-            def retrofit_version = '2.7.1'
-            implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-            implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-
-            // Retrofit adapters for RX
-            implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
-            implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
-
-            // Dagger
+            // (di) Dagger
             kapt "com.google.dagger:dagger-compiler:$daggerVersion"
             kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
             implementation "com.google.dagger:dagger:$daggerVersion"
             implementation "com.google.dagger:dagger-android:$daggerVersion"
             implementation "com.google.dagger:dagger-android-support:$daggerVersion"
+
+            // (Asynchronous programming) RX
+            implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
+            implementation 'io.reactivex.rxjava2:rxjava:2.2.15'
+            implementation "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion"
+
+            // Retrofit2
+            def retrofit_version = '2.7.1'
+            implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+            implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+            implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
 
             // Room
             implementation "androidx.room:room-runtime:$room_version"
@@ -41,15 +43,6 @@ subprojects {
 
             // Room DB with RX
             implementation "androidx.room:room-rxjava2:$room_version"
-
-            // RX Android
-            implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
-
-            // RX Java2
-            implementation 'io.reactivex.rxjava2:rxjava:2.2.15'
-
-            // Rx
-            implementation "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion"
 
             // coroutines
             implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
